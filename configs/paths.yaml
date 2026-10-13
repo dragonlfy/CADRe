@@ -1,0 +1,23 @@
+# Locations of data, models, and outputs. Relative paths are resolved against the repository root.
+
+# MIMIC-IV-ECG v1.0 (PhysioNet): the directory that holds record_list.csv, machine_measurements.csv and files/
+mimic_ecg: /data/physionet.org/files/mimic-iv-ecg/1.0
+
+# ECG-R1 training corpus (PKUDigitalHealth/ECG-Protocol-Guided-Grounding-CoT): the experience memory is built from it
+train_corpus: /data/ECG-Protocol-Guided-Grounding-CoT/ecg_jsons/train_set/ECG-Protocol-Guided-Grounding-CoT-30k.jsonl
+# ECG-Grounding MIMIC-IV test set in the same format
+test_set: /data/ECG-Protocol-Guided-Grounding-CoT/ecg_jsons/test_set/ecg-grounding-test-mimiciv_full.jsonl
+# ECG images referenced by both files (the directory that contains mimic_gen/ ...)
+images: /data/ECG-Protocol-Guided-Grounding-CoT/ecg_images
+
+# ECG-Grounding (LANSG/ECG-Grounding): clinical interpretations of the training records and references of the test set
+train_references: /data/ECG-Grounding/ecg_jsons/grounding_train_30k.json
+test_references: /data/ECG-Grounding/ecg_jsons/ecg-grounding-test-mimiciv.json
+
+# ECG-R1: official code (ms-swift with the ecg_r1 model type), checkpoint, and ECG encoder
+ecgr1_code: /models/ECG-R1
+ecgr1_model: /models/ECG-R1-8B-RL
+ecg_tower: /models/ecgcoca/cpt_wfep_epoch_20.pt
+
+# Everything CADRe writes
+work: work

@@ -1,0 +1,59 @@
+# Method settings of CADRe. The values below were selected by patient-grouped 5-fold cross-validation within the
+# experience memory (scripts/06_revise.py --select reproduces the findings, rhythm and axis settings).
+
+memory:
+  slice_modulus: 25        # patient slices: CRC32(patient id) mod 25
+  excluded_slices: [1]     # a 4% validation slice that is not part of the memory
+
+findings:                  # 21 coexisting findings (nonspecific ST-T abnormality has its own rule below)
+  labels: machine+interpretation
+  w: 0.5
+  k: 50
+  beta: 0.05
+  kappa: 1.43
+  threshold: 0.4           # utilities u+ = 1 and u- = 2/3 of a correct and an incorrect addition: u- / (u+ + u-)
+
+stt:                       # nonspecific ST-T abnormality
+  labels: machine
+  w: 0.0
+  k: 200
+  beta: 0.25
+  kappa: 1.43
+  threshold: 0.4
+  calibration_slice_modulus: 25   # the isotonic map is fitted on this patient slice, with a memory without it
+  calibration_slice: 0
+
+rhythm:                    # exclusive group: a sinus rhythm or atrial fibrillation is replaced
+  kappa: 1.0               # replacement threshold kappa / (1 + kappa) = 0.5
+  enabled: [AFLT, PACE]
+  values:
+    SR:   {k: 100, beta: 0.25, w: 0.5}
+    AFIB: {k: 10, beta: 0.1, w: 0.5}
+    AFLT: {k: 10, beta: 0.05, w: 0.0}
+    PACE: {k: 10, beta: 0.05, w: 1.0}
+
+axis:                      # exclusive group: left or right axis deviation
+  kappa: 1.0
+  enabled: [LAD, RAD]
+  values:
+    LAD: {k: 50, beta: 0.05, w: 1.0}
+    RAD: {k: 25, beta: 0.05, w: 2.0}
+
+grids:
+  findings:
+    labels: [machine, machine+interpretation]
+    w: [0.0, 0.5, 1.0, 2.0]
+    k: [25, 50, 100, 200]
+    beta: [0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+  rhythm:
+    w: [0.0, 0.5, 1.0, 2.0]
+    k: [10, 25, 50, 100, 200]
+    beta: [0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 4.0]
+  axis:
+    w: [0.0, 0.5, 1.0, 2.0]
+    k: [10, 25, 50, 100, 200]
+    beta: [0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
+
+regeneration:
+  max_new_tokens: 2048
+  batch_size: 12

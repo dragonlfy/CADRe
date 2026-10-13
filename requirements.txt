@@ -1,0 +1,8 @@
+numpy
+scipy
+scikit-learn
+pyyaml
+requests
+wfdb
+neurokit2
+torch
